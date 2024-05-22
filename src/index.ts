@@ -22,7 +22,7 @@ export function apply(ctx: Context, cfg: Config) {
     .action(async () => {
       let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
 
-      let message = `=======  服务器Id ${content.id}  =======`;
+      let message = `=======  服务器Id (${content.id})  =======`;
       message += `\n名称:  ${content.name}`;
       message += `\n简介:  ${content.description}`;
       message += `\n地区:  ${content.region} - ${content.country}`;
@@ -37,7 +37,7 @@ export function apply(ctx: Context, cfg: Config) {
     .action(async () => {
       let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
 
-      let message = `=======  服务器Id ${content.id}  =======`;
+      let message = `=======  服务器Id (${content.id})  =======`;
       message += `\n名称:  ${content.name}`;
       message += `\n地图:  ${modeDb[content.gameMode]} - ${mapDb[content.mapName]}`;
       message += `\n人数:  ${content.currentPlayers} / ${content.maxPlayers} [${content.currentSpectators}]`;
@@ -47,7 +47,7 @@ export function apply(ctx: Context, cfg: Config) {
         return message;
       }
 
-      message += `\n=======  模组数量 ${content.modList.length}  =======`;
+      message += `\n=======  模组数量 (${content.modList.length})  =======`;
       for (const mod of content.modList) {
         message += `\n名称:  ${mod.name}`;
         message += `\n类型:  ${mod.category}`;
@@ -64,7 +64,7 @@ export function apply(ctx: Context, cfg: Config) {
     .action(async () => {
       let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
 
-      let message = `=======  服务器Id ${content.id}  =======`;
+      let message = `=======  服务器Id (${content.id})  =======`;
       message += `\n名称:  ${content.name}`;
       message += `\n地图:  ${modeDb[content.gameMode]} - ${mapDb[content.mapName]}`;
       message += `\n人数:  ${content.currentPlayers} / ${content.maxPlayers} [${content.currentSpectators}]`;
@@ -79,12 +79,12 @@ export function apply(ctx: Context, cfg: Config) {
 
       message += `\n=======  队伍1 (${team1Players.length})  =======`;
       for (const [index, player] of team1Players.entries()) {
-        message += `\n${(index + 1).toString().padStart(2, "0")}.  ${player.name} (${player.pid})`;
+        message += `\n${(index + 1).toString().padStart(2, "0")}.  ${player.name}  (${player.pid})`;
       }
 
       message += `\n=======  队伍2 (${team2Players.length})  =======`;
       for (const [index, player] of team2Players.entries()) {
-        message += `\n${(index + 1).toString().padStart(2, "0")}.  ${player.name} (${player.pid})`;
+        message += `\n${(index + 1).toString().padStart(2, "0")}.  ${player.name}  (${player.pid})`;
       }
 
       return message;
@@ -105,7 +105,7 @@ export function apply(ctx: Context, cfg: Config) {
         return message;
       }
 
-      message += `\n=======  地图数量 ${content.rotation.length}  =======`;
+      message += `\n=======  地图数量 (${content.rotation.length})  =======`;
       for (const [index, map] of content.rotation.entries()) {
         message += `\n${(index + 1).toString().padStart(2, "0")}.  ${modeDb[map.modeLongName]} - ${mapDb[map.mapLongName]}`;
       }
