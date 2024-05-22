@@ -18,7 +18,7 @@ export const Config: Schema<Config> = Schema.object({
 export function apply(ctx: Context, cfg: Config) {
 
   // 查询服务器信息
-  ctx.command("#marne")
+  ctx.command("marne")
     .action(async () => {
       let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
 
@@ -33,7 +33,7 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   // 查询服务器Mod信息
-  ctx.command("#mod")
+  ctx.command("mod")
     .action(async () => {
       let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
 
@@ -60,7 +60,7 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   // 查询服务器玩家列表信息
-  ctx.command("#player")
+  ctx.command("player")
     .action(async () => {
       let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
 
@@ -77,12 +77,12 @@ export function apply(ctx: Context, cfg: Config) {
       const team1Players = content.playerList.filter(player => player.team === 1);
       const team2Players = content.playerList.filter(player => player.team === 2);
 
-      message += `\n=======  队伍1 ${team1Players.length}  =======`;
+      message += `\n=======  队伍1 (${team1Players.length})  =======`;
       for (const [index, player] of team1Players.entries()) {
         message += `\n${(index + 1).toString().padStart(2, "0")}.  ${player.name} (${player.pid})`;
       }
 
-      message = `\n=======  队伍2 ${team2Players.length}  =======`;
+      message += `\n=======  队伍2 (${team2Players.length})  =======`;
       for (const [index, player] of team2Players.entries()) {
         message += `\n${(index + 1).toString().padStart(2, "0")}.  ${player.name} (${player.pid})`;
       }
@@ -91,7 +91,7 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   // 查询服务器地图列表信息
-  ctx.command("#map")
+  ctx.command("map")
     .action(async () => {
       let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
 
