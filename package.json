@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-marne-bot",
   "description": "一个战地1马恩服务器查询机器人",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [

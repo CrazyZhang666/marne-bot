@@ -15,12 +15,49 @@ export const Config: Schema<Config> = Schema.object({
   serverId: Schema.number().description("马恩服务器Id")
 }).description("配置项");
 
+async function getServerList(ctx: Context, cfg: Config) {
+  return await ctx.http.get(`${cfg.marneApi}`)
+}
+
+async function getServerInfo(ctx: Context, cfg: Config) {
+  return await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`)
+}
+
 export function apply(ctx: Context, cfg: Config) {
+
+  ctx.command("server")
+    .action(async () => {
+      let content = await getServerList(ctx, cfg);
+
+      let message = "";
+      if (content.servers.length == 0) {
+        message += "当前无服务器在线";
+        return message;
+      }
+
+      for (const [index, server] of content.servers.entries()) {
+        message += `\n=======  服务器 (${index + 1})  =======`;
+        message += `\n编号:  ${server.id}`;
+        message += `\n名称:  ${server.name}`;
+        message += `\n地区:  ${server.region} - ${server.country}`;
+        message += `\n网络:  NAT${server.natType}`;
+        message += `\n地图:  ${modeDb[server.gameMode]} - ${mapDb[server.mapName]}`;
+        message += `\n人数:  ${server.currentPlayers} / ${server.maxPlayers} [${server.currentSpectators}]`;
+      }
+
+      return message;
+    });
+
+  ctx.command("bind <message>")
+    .action((_, message) => {
+      cfg.serverId = parseInt(message);
+      return `已绑定服务器Id ${message}`;
+    });
 
   // 查询服务器信息
   ctx.command("marne")
     .action(async () => {
-      let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
+      let content = await getServerInfo(ctx, cfg);
 
       let message = `=======  服务器Id (${content.id})  =======`;
       message += `\n名称:  ${content.name}`;
@@ -35,7 +72,7 @@ export function apply(ctx: Context, cfg: Config) {
   // 查询服务器Mod信息
   ctx.command("mod")
     .action(async () => {
-      let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
+      let content = await getServerInfo(ctx, cfg);
 
       let message = `=======  服务器Id (${content.id})  =======`;
       message += `\n名称:  ${content.name}`;
@@ -47,8 +84,8 @@ export function apply(ctx: Context, cfg: Config) {
         return message;
       }
 
-      message += `\n=======  模组数量 (${content.modList.length})  =======`;
-      for (const mod of content.modList) {
+      for (const [index, mod] of content.modList.entries()) {
+        message += `\n=======  模组 (${index + 1})  =======`;
         message += `\n名称:  ${mod.name}`;
         message += `\n类型:  ${mod.category}`;
         message += `\n文件:  ${mod.file_name}`;
@@ -62,7 +99,7 @@ export function apply(ctx: Context, cfg: Config) {
   // 查询服务器玩家列表信息
   ctx.command("player")
     .action(async () => {
-      let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
+      let content = await getServerInfo(ctx, cfg);
 
       let message = `=======  服务器Id (${content.id})  =======`;
       message += `\n名称:  ${content.name}`;
@@ -93,7 +130,7 @@ export function apply(ctx: Context, cfg: Config) {
   // 查询服务器地图列表信息
   ctx.command("map")
     .action(async () => {
-      let content = await ctx.http.get(`${cfg.marneApi}/${cfg.serverId}`);
+      let content = await getServerInfo(ctx, cfg);
 
       let message = `=======  服务器Id ${content.id}  =======`;
       message += `\n名称:  ${content.name}`;
@@ -114,4 +151,3 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
 }
-
