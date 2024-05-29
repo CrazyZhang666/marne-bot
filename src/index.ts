@@ -132,7 +132,7 @@ export function apply(ctx: Context, cfg: Config) {
     .action(async () => {
       let content = await getServerInfo(ctx, cfg);
 
-      let message = `=====  服务器Id ${content.id}  =====`;
+      let message = `=====  服务器Id (${content.id})  =====`;
       message += `\n名称:  ${content.name}`;
       message += `\n地图:  ${modeDb[content.gameMode]} - ${mapDb[content.mapName]}`;
       message += `\n人数:  ${content.currentPlayers} / ${content.maxPlayers} [${content.currentSpectators}]`;
